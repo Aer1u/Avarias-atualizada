@@ -1,0 +1,54 @@
+[00:00:01.107] Server  LOG     ✓ Ready in 816ms
+[00:00:01.126] Browser ERROR   {}
+[00:00:01.126] Browser ERROR   {}
+[00:00:01.826] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:02.382] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" suppressHydrationWarning={true}>
+                          <body
+                            className="geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__var..."
+-                           cz-shortcut-listen="true"
+                          >
+                  ...
+
+[00:00:03.381] Browser ERROR   {}
+[00:00:09.249] Browser ERROR   {}
+[00:00:25.733] Browser ERROR   {}
+[00:00:47.806] Browser ERROR   {}
+[00:01:04.600] Browser ERROR   {}
+[00:04:41.052] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:54.315] Server  LOG     ✓ Compiled in 1475ms
+[00:07:01.965] Server  LOG     ✓ Compiled in 65ms
+[00:10:27.808] Server  LOG     ✓ Compiled in 63ms
+[00:10:49.379] Server  LOG     ✓ Compiled in 108ms
+[00:15:09.723] Server  LOG     ✓ Compiled in 99ms
+[00:17:33.951] Server  LOG     ✓ Compiled in 44ms
+[00:17:44.686] Server  LOG     ✓ Compiled in 44ms
+[00:19:55.636] Server  LOG     ✓ Compiled in 54ms
+[00:40:38.711] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
