@@ -1,0 +1,197 @@
+!DOCTYPE html
+html lang=pt-BR
+head
+  meta charset=UTF-8
+  titleGestão de Avariastitle
+  script src=httpscdn.jsdelivr.netnpmchart.jsscript
+  script src=httpscdn.jsdelivr.netnpmpapaparse@5.4.1papaparse.min.jsscript
+  style
+    body {
+      font-family Arial, sans-serif;
+      background #f4f7fb;
+      margin 0;
+      padding 20px;
+    }
+    h1 {
+      margin-bottom 10px;
+    }
+    .topbar {
+      display flex;
+      justify-content space-between;
+      align-items center;
+    }
+    .cards {
+      display grid;
+      grid-template-columns repeat(auto-fit, minmax(220px, 1fr));
+      gap 15px;
+      margin-top 20px;
+    }
+    .card {
+      background #fff;
+      padding 20px;
+      border-radius 12px;
+      box-shadow 0 4px 10px rgba(0,0,0,.05);
+    }
+    .card h2 {
+      font-size 14px;
+      color #666;
+      margin 0;
+    }
+    .card span {
+      font-size 28px;
+      font-weight bold;
+      color #1f4cff;
+    }
+    .charts {
+      display grid;
+      grid-template-columns 2fr 1fr;
+      gap 20px;
+      margin-top 30px;
+    }
+    .chart-box {
+      background #fff;
+      padding 20px;
+      border-radius 12px;
+      box-shadow 0 4px 10px rgba(0,0,0,.05);
+    }
+    input[type=file] {
+      padding 8px;
+    }
+  style
+head
+
+body
+
+div class=topbar
+  h1Gestão de Avariash1
+  input type=file id=fileInput accept=.csv
+div
+
+div class=cards
+  div class=card
+    h2Total de Unidadesh2
+    span id=totalUnidades0span
+  div
+  div class=card
+    h2Total de Códigosh2
+    span id=totalCodigos0span
+  div
+  div class=card
+    h2Drivesh2
+    span id=totalDrives0span
+  div
+  div class=card
+    h2Rejeitadosh2
+    span id=rejeitados0span
+  div
+  div class=card
+    h2Sem Posiçãoh2
+    span id=semPosicao0span
+  div
+div
+
+div class=charts
+  div class=chart-box
+    h3Top Produtos por Quantidadeh3
+    canvas id=produtosChartcanvas
+  div
+
+  div class=chart-box
+    h3Status do Driveh3
+    canvas id=statusChartcanvas
+  div
+div
+
+script
+let produtosChart, statusChart;
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  Papa.parse(file, {
+    header true,
+    skipEmptyLines true,
+    complete function(results) {
+      processarDados(results.data);
+    }
+  });
+});
+
+function processarDados(dados) {
+  let totalUnidades = 0;
+  let produtos = {};
+  let status = {};
+  let semPosicao = 0;
+  let rejeitados = 0;
+  let drives = new Set();
+
+  dados.forEach(linha = {
+    const qtd = Number(linha.Quantidade)  0;
+    totalUnidades += qtd;
+
+    if (linha.Produto) {
+      produtos[linha.Produto] = (produtos[linha.Produto]  0) + qtd;
+    }
+
+    if (linha.Status) {
+      status[linha.Status] = (status[linha.Status]  0) + 1;
+      if (linha.Status.toLowerCase().includes(reje)) {
+        rejeitados += qtd;
+      }
+    }
+
+    if (!linha.Posição  linha.Posição.trim() === ) {
+      semPosicao += qtd;
+    }
+
+    if (linha.Drive) {
+      drives.add(linha.Drive);
+    }
+  });
+
+  document.getElementById('totalUnidades').innerText = totalUnidades.toLocaleString();
+  document.getElementById('totalCodigos').innerText = Object.keys(produtos).length;
+  document.getElementById('totalDrives').innerText = drives.size;
+  document.getElementById('rejeitados').innerText = rejeitados;
+  document.getElementById('semPosicao').innerText = semPosicao;
+
+  gerarGraficoProdutos(produtos);
+  gerarGraficoStatus(status);
+}
+
+function gerarGraficoProdutos(produtos) {
+  const top = Object.entries(produtos)
+    .sort((a,b) = b[1]-a[1])
+    .slice(0,10);
+
+  if (produtosChart) produtosChart.destroy();
+
+  produtosChart = new Chart(document.getElementById('produtosChart'), {
+    type 'bar',
+    data {
+      labels top.map(p = p[0]),
+      datasets [{
+        data top.map(p = p[1])
+      }]
+    }
+  });
+}
+
+function gerarGraficoStatus(status) {
+  if (statusChart) statusChart.destroy();
+
+  statusChart = new Chart(document.getElementById('statusChart'), {
+    type 'doughnut',
+    data {
+      labels Object.keys(status),
+      datasets [{
+        data Object.values(status)
+      }]
+    }
+  });
+}
+script
+
+body
+html
